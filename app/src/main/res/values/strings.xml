@@ -1,0 +1,60 @@
+<resources>
+    <string name="app_name">vegetables</string>
+
+    <!-- Dialog -->
+    <string name="ok">确定</string>
+    <string name="confirm">确认</string>
+    <string name="cancel">取消</string>
+    <string name="yes">是</string>
+    <string name="no">否</string>
+
+    <string name="phone">手机号</string>
+    <string name="user_name">请输入用户名/手机号/邮箱</string>
+    <string name="password">密码</string>
+    <string name="please_input_password">请输入密码</string>
+    <string name="login">登录</string>
+
+    <string name="home">首页</string>
+    <string name="classify">分类</string>
+    <string name="cart">购物车</string>
+    <string name="mine">我的</string>
+    <string name="per_jin">500g</string>
+    <string name="add_cart">加入购物车</string>
+    <string name="search">搜索</string>
+    <string name="search_commodity">搜索商品</string>
+
+    <string name="delete">删除</string>
+    <string name="select_all">全选</string>
+    <string name="submit_order">提交订单</string>
+    <string name="confirm_order">确认订单</string>
+    <string name="send_time">送达时间</string>
+    <string name="please_select_send_time">请选择送达时间</string>
+    <string name="commodity_amount">商品件数</string>
+    <string name="expect_money">预计金额</string>
+    <string name="confirm_order_desc">预计金额为预订时估算的金额，请以实际到货的金额为准</string>
+
+    <string name="commodity_list">商品清单</string>
+    <string name="commodity">商品</string>
+
+    <string name="call_we">联系我们</string>
+    <string name="exit_login">退出登录</string>
+    <string name="my_order">我的订单</string>
+    <string name="all_order">全部订单</string>
+    <string name="wait_send">待送达</string>
+    <string name="finished">已完成</string>
+    <string name="order_detail">订单详情</string>
+
+    <string name="no_send_order">代送订单</string>
+    <string name="history_order">历史订单</string>
+    <string name="see_address">查看地址</string>
+
+    <string name="confirm_send">确认送达</string>
+    <string name="actual_price">实收金额:</string>
+    <string name="please_confirm_actual_fund">请确认您的实收金额</string>
+    <string name="should_fund">应收金额:</string>
+    <string name="actual_fund">实收金额:</string>
+    <string name="sum">总计</string>
+    <string name="contract_us">联系我们</string>
+
+
+</resources>

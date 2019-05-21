@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tool="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_white_radius_four"
+    android:orientation="vertical"
+    android:paddingLeft="34dp"
+    android:paddingTop="28dp"
+    android:paddingRight="34dp"
+    android:paddingBottom="15dp">
+
+    <TextView
+        android:id="@+id/userName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="18dp"
+        android:textColor="@color/blackPrimary"
+        android:textSize="17sp"
+        tool:text="丰县消协大队" />
+
+
+    <TextView
+        android:id="@+id/phoneNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:textColor="@color/blackPrimary"
+        android:textSize="14sp"
+        tool:text="电话：16464894595" />
+
+    <TextView
+        android:id="@+id/address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:textColor="@color/blackPrimary"
+        android:textSize="14sp"
+        tool:text="地址：浙江省杭州市滨江区江陵路123路xx消协大队" />
+
+
+    <TextView
+        android:id="@+id/confirm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="15dp"
+        android:background="@drawable/btn_green_radius_thirteen"
+        android:paddingLeft="33dp"
+        android:paddingTop="9dp"
+        android:paddingRight="33dp"
+        android:paddingBottom="9dp"
+        android:text="@string/ok"
+        android:textColor="@color/white"
+        android:textSize="15sp" />
+
+
+</LinearLayout>

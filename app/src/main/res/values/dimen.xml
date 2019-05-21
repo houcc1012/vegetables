@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="common_margin">14dp</dimen>
+    <dimen name="dimen_twelve">12dp</dimen>
+    <dimen name="dimen_fourteen">14dp</dimen>
+
+    <dimen name="BottomTabs_interval">10dp</dimen>
+    <dimen name="common_text_size">14sp</dimen>
+</resources>
