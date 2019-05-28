@@ -55,7 +55,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textColor="@color/redPrimary"
-            android:textSize="16sp"
+            android:textSize="13sp"
             tool:text="1.33" />
 
         <com.fine.vegetables.view.AmountView

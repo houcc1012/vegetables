@@ -4,6 +4,9 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.RelativeSizeSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +19,11 @@ import com.fine.vegetables.listener.OnAddCartListener;
 import com.fine.vegetables.listener.OnCartChangeListener;
 import com.fine.vegetables.model.Cart;
 import com.fine.vegetables.model.Commodity;
+import com.fine.vegetables.utils.StrUtil;
 import com.fine.vegetables.view.AmountView;
 
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -111,7 +117,13 @@ public class CommodityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     .into(commodityImg);
             commodityName.setText(commodity.getName());
             unit.setText(context.getString(R.string.unit_, commodity.getUnitName()));
-            price.setText(context.getString(R.string.yuan_symbol_, String.valueOf(commodity.getPrice())));
+            DecimalFormat decimal = new DecimalFormat("#.00");
+            String priceStr = decimal.format(commodity.getPrice());
+
+            SpannableString res = new SpannableString(context.getString(R.string.yuan_symbol_, priceStr));
+            res.setSpan(new RelativeSizeSpan(1.25f), 1, res.toString().indexOf("."), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+            price.setText(res);
             addCart.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
