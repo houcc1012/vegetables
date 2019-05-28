@@ -3,13 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background">
+    android:background="@color/background"
+    android:orientation="vertical">
 
     <com.fine.vegetables.view.TitleBar
         android:id="@+id/titleBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:backFeature="true"
+        app:hasBottomSplitLine="true"
         app:titleText="@string/my_order" />
 
     <com.fine.vegetables.view.slidingTab.SlidingTabLayout
@@ -18,7 +20,7 @@
         android:layout_height="wrap_content"
         android:background="@android:color/white" />
 
-    <android.support.v4.view.ViewPager
+    <com.fine.vegetables.view.ScrollableViewPager
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="0dp"

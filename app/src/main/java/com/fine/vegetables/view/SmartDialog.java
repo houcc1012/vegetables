@@ -59,7 +59,6 @@ public class SmartDialog {
     private OnClickListener mNegativeListener;
     private OnCancelListener mOnCancelListener;
     private OnDismissListener mDismissListener;
-    private int mPositiveTextColor;
     private int mNegativeVisible;
     private float mWidthScale;
     private float mHeightScale;
@@ -184,7 +183,6 @@ public class SmartDialog {
         mNegativeListener = null;
         mOnCancelListener = null;
         mDismissListener = null;
-        mPositiveTextColor = Color.parseColor("#55ADFF");
         mNegativeVisible = View.VISIBLE;
 
         mCancelableOnTouchOutside = true;
@@ -229,10 +227,6 @@ public class SmartDialog {
         return this;
     }
 
-    public SmartDialog setPositiveTextColor(int resColorId) {
-        mPositiveTextColor = resColorId;
-        return this;
-    }
 
     public SmartDialog setMessageGravity(int gravity) {
         mMessageGravity = gravity;
@@ -421,7 +415,6 @@ public class SmartDialog {
             }
 
             mPosition.setText(mPositiveId);
-            mPosition.setTextColor(mPositiveTextColor);
             mPosition.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

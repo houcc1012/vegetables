@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.RectF;
 import android.text.TextPaint;
 import android.util.AttributeSet;
 
@@ -81,31 +82,31 @@ public class RedPointTextView extends android.support.v7.widget.AppCompatTextVie
             mBgPaint.setColor(mBgColor);
 
             String str = null;
-//			if (mNum > 999) {
-//				str = "999+";
-//			} else {
-//				str = String.valueOf(mNum);
-//			}
-//			float textWidth = mTextPaint.measureText(str);
-//			int padding = dp2px(2);
-//			if (mNormalRadius * 2 - textWidth < padding) {
-//				RectF rectF = new RectF(mX - textWidth / 2 - padding, mY - mNormalRadius, mX + textWidth / 2 + padding, mY + mNormalRadius);
-//				canvas.drawRoundRect(rectF, mNormalRadius, mNormalRadius, mBgPaint);
-//			} else {
-//				canvas.drawCircle(mX, mY, mNormalRadius, mBgPaint);
-//			}
+            if (mNum > 999) {
+                str = "999+";
+            } else {
+                str = String.valueOf(mNum);
+            }
+            float textWidth = mTextPaint.measureText(str);
+            int padding = dp2px(3);
+            if (mNormalRadius * 2 - textWidth < padding) {
+                RectF rectF = new RectF(mX - textWidth / 2 - padding, mY - mNormalRadius - padding, mX + textWidth / 2 + padding, mY + mNormalRadius + padding);
+                canvas.drawRoundRect(rectF, mNormalRadius, mNormalRadius, mBgPaint);
+            } else {
+                canvas.drawCircle(mX, mY, mNormalRadius, mBgPaint);
+            }
             canvas.drawCircle(mX, mY, mNormalRadius, mBgPaint);
 
             //绘制的文本
             mTextPaint.setColor(mTextColor);
-//			canvas.drawText(str, mX - textWidth / 2, mY + mTextPaint.getFontMetrics().bottom * 1.2f, mTextPaint);
+            canvas.drawText(str, mX - textWidth / 2, mY + mTextPaint.getFontMetrics().bottom * 1.2f, mTextPaint);
         } else {
             mBgPaint.setColor(0x00000000);
             canvas.drawCircle(mX, mY, mNormalRadius, mBgPaint);
-//			String str = "";
-//			//颜色
-//			mTextPaint.setColor(0x00ffffff);
-//			canvas.drawText(str, mX - mTextPaint.measureText(str) / 2, mY + mTextPaint.getFontMetrics().bottom * 1.2f, mTextPaint);
+            String str = "";
+            //颜色
+            mTextPaint.setColor(0x00ffffff);
+            canvas.drawText(str, mX - mTextPaint.measureText(str) / 2, mY + mTextPaint.getFontMetrics().bottom * 1.2f, mTextPaint);
         }
     }
 
@@ -116,6 +117,11 @@ public class RedPointTextView extends android.support.v7.widget.AppCompatTextVie
      */
     public void setNum(int mNum) {
         this.mNum = mNum;
+        invalidate();
+    }
+
+    public void addNum(int num) {
+        this.mNum = this.mNum + num;
         invalidate();
     }
 

@@ -1,26 +1,42 @@
 package com.fine.vegetables.fragment;
 
+import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.fine.vegetables.R;
+import com.fine.vegetables.activity.ConfirmOrderActivity;
+import com.fine.vegetables.activity.MainActivity;
 import com.fine.vegetables.adapter.CartListAdapter;
+import com.fine.vegetables.listener.OnCartChangeListener;
+import com.fine.vegetables.listener.OnSelectAmountChangeListener;
+import com.fine.vegetables.listener.OnSelectCartListener;
 import com.fine.vegetables.model.Cart;
+import com.fine.vegetables.model.CartItem;
+import com.fine.vegetables.utils.Launcher;
+import com.fine.vegetables.utils.ToastUtil;
+import com.fine.vegetables.view.SmartDialog;
 import com.fine.vegetables.view.TitleBar;
 
-import java.util.ArrayList;
+import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 public class CartFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
@@ -38,14 +54,34 @@ public class CartFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     @BindView(R.id.selectAll)
     TextView selectAll;
     @BindView(R.id.totalPrice)
-    TextView totalPrice;
+    TextView mTotalPrice;
     @BindView(R.id.totalAmount)
-    TextView totalAmount;
+    TextView mTotalAmount;
     @BindView(R.id.submit)
     TextView submit;
+    @BindView(R.id.empty)
+    ImageView empty;
+    @BindView(R.id.goShop)
+    TextView goShop;
+    @BindView(R.id.emptyLayout)
+    RelativeLayout emptyLayout;
 
     private CartListAdapter mCartListAdapter;
-    private List<Cart> mCartList = new ArrayList<>();
+
+    private OnCartChangeListener mOnCartChangeListener = new OnCartChangeListener() {
+        @Override
+        public void onCartChange() {
+            if (Cart.get().getCartItems().isEmpty()) {
+                emptyLayout.setVisibility(View.VISIBLE);
+                mRecyclerView.setVisibility(View.GONE);
+                totalLayout.setVisibility(View.GONE);
+            } else {
+                emptyLayout.setVisibility(View.GONE);
+                mRecyclerView.setVisibility(View.VISIBLE);
+                totalLayout.setVisibility(View.VISIBLE);
+            }
+        }
+    };
 
     @Nullable
     @Override
@@ -62,25 +98,171 @@ public class CartFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     }
 
     private void initView() {
+        if (Cart.get().getCartItems().isEmpty()) {
+            emptyLayout.setVisibility(View.VISIBLE);
+            mRecyclerView.setVisibility(View.GONE);
+            totalLayout.setVisibility(View.GONE);
+        } else {
+            emptyLayout.setVisibility(View.GONE);
+            mRecyclerView.setVisibility(View.VISIBLE);
+            totalLayout.setVisibility(View.VISIBLE);
+        }
+
+        mTitleBar.setOnRightViewClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SmartDialog.with(getActivity())
+                        .setTitle(getString(R.string.confirm_delect_selected_commodity))
+                        .setPositive(R.string.ok, new SmartDialog.OnClickListener() {
+                            @Override
+                            public void onClick(Dialog dialog) {
+                                dialog.dismiss();
+                                deleteSelectedItems();
+                            }
+                        })
+                        .setNegative(R.string.cancel, new SmartDialog.OnClickListener() {
+                            @Override
+                            public void onClick(Dialog dialog) {
+                                dialog.dismiss();
+                            }
+                        }).show();
+            }
+        });
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                List<CartItem> cartItems = mCartListAdapter.getSelectedItems();
+                if (cartItems.isEmpty()) {
+                    ToastUtil.show(R.string.please_select_commodity_then_submit);
+                } else {
+                    Launcher.with(getActivity(), ConfirmOrderActivity.class)
+                            .putExtra(Launcher.EX_PAYLOAD, (Serializable) cartItems)
+                            .execute();
+                }
+            }
+        });
         mSwipeRefreshLayout.setOnRefreshListener(this);
-        mCartListAdapter = new CartListAdapter(mCartList, getActivity());
-        mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL));
+        mCartListAdapter = new CartListAdapter(Cart.get().getCartItems(), getActivity());
+        mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 1));
         mRecyclerView.setAdapter(mCartListAdapter);
+        mCartListAdapter.setOnSelectCartListener(new OnSelectCartListener() {
+            @Override
+            public void select(CartItem cartItem) {
+                updatePriceAndCount();
+            }
+
+            @Override
+            public void unSelect(CartItem cartItem) {
+                updatePriceAndCount();
+            }
+        });
+        mCartListAdapter.setOnSelectAmountChangeListener(new OnSelectAmountChangeListener() {
+            @Override
+            public void change(CartItem cartItem) {
+                Cart.get().broadcastCartChange();
+                updatePriceAndCount();
+            }
+        });
+
+        selectAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (selectAll.isSelected()) {
+                    selectAll.setSelected(false);
+                    updateAll(false);
+                } else {
+                    selectAll.setSelected(true);
+                    updateAll(true);
+                }
+            }
+        });
+
+    }
+
+    private void deleteSelectedItems() {
+        List<CartItem> cartItems = mCartListAdapter.getSelectedItems();
+        Cart.get().removeItems(cartItems);
+        updateDeleteBtn(false);
+        mTotalAmount.setText(getString(R.string.total_, String.valueOf(0)));
+        mTotalPrice.setText(String.valueOf(0.00));
+        selectAll.setSelected(false);
+        mCartListAdapter.remove(cartItems);
+        mCartListAdapter.notifyDataSetChanged();
+    }
+
+    private void updatePriceAndCount() {
+        List<CartItem> cartItems = mCartListAdapter.getSelectedItems();
+        double totalPrice = 0.00;
+        for (CartItem item : cartItems) {
+            totalPrice = item.getPrice() * item.getCount() + totalPrice;
+        }
+        updateDeleteBtn(!cartItems.isEmpty());
+        mTotalAmount.setText(getString(R.string.total_, String.valueOf(cartItems.size())));
+        mTotalPrice.setText(BigDecimal.valueOf(totalPrice).setScale(2, BigDecimal.ROUND_HALF_UP).toString());
+
+    }
+
+    private void updateDeleteBtn(boolean canClick) {
+        if (canClick) {
+            mTitleBar.setRightViewEnable(true);
+            mTitleBar.setRightTextColor(ContextCompat.getColorStateList(getContext(), R.color.green));
+        } else {
+            mTitleBar.setRightViewEnable(false);
+            mTitleBar.setRightTextColor(ContextCompat.getColorStateList(getContext(), R.color.unluckyText));
+        }
+    }
+
+    private void updateAll(boolean allSelected) {
+        List<CartItem> cartItems = mCartListAdapter.getCartList();
+        double totalPrice = 0.00;
+        for (CartItem item : cartItems) {
+            item.setSelected(allSelected);
+            if (allSelected) {
+                totalPrice = item.getPrice() * item.getCount() + totalPrice;
+            }
+        }
+        if (allSelected) {
+            updateDeleteBtn(true);
+            mTotalAmount.setText(getString(R.string.total_, String.valueOf(cartItems.size())));
+            mTotalPrice.setText(BigDecimal.valueOf(totalPrice).setScale(2, BigDecimal.ROUND_HALF_UP).toString());
+        } else {
+            updateDeleteBtn(false);
+            mTotalAmount.setText(getString(R.string.total_, String.valueOf(0)));
+            mTotalPrice.setText(String.valueOf(0.00));
+        }
+        mCartListAdapter.notifyDataSetChanged();
+        if (cartItems.isEmpty()) {
+            emptyLayout.setVisibility(View.VISIBLE);
+            mRecyclerView.setVisibility(View.GONE);
+            totalLayout.setVisibility(View.GONE);
+        } else {
+            emptyLayout.setVisibility(View.GONE);
+            mRecyclerView.setVisibility(View.VISIBLE);
+            totalLayout.setVisibility(View.VISIBLE);
+        }
     }
 
 
     @Override
     public void onResume() {
         super.onResume();
-        requestCart();
+        Cart.get().registerOnCartChangeListener(mOnCartChangeListener);
+        updateCartData();
     }
 
-    private void requestCart() {
+    @Override
+    public void onPause() {
+        super.onPause();
+        Cart.get().unRegisterOnCartChangeListener(mOnCartChangeListener);
     }
 
-    private void updateCommodities() {
-
+    public void updateCartData() {
+        mSwipeRefreshLayout.setRefreshing(false);
+        mCartListAdapter.setCartList(Cart.get().getCartItems());
+        mCartListAdapter.notifyDataSetChanged();
+        updatePriceAndCount();
     }
+
 
     @Override
     public void onDestroyView() {
@@ -90,6 +272,13 @@ public class CartFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 
     @Override
     public void onRefresh() {
-        requestCart();
+        updateCartData();
+    }
+
+    @OnClick(R.id.goShop)
+    public void onViewClicked() {
+        if (getActivity() instanceof MainActivity) {
+            ((MainActivity) getActivity()).goHomePage();
+        }
     }
 }

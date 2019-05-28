@@ -4,20 +4,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background"
     android:orientation="vertical">
 
+    <com.fine.vegetables.view.TitleBar
+        android:id="@+id/titleBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:backFeature="false"
+        app:hasBottomSplitLine="true"
+        app:rightImage="@drawable/ic_quit"
+        app:rightVisible="true"
+        app:titleText="@string/my_order" />
 
     <com.fine.vegetables.view.slidingTab.SlidingTabLayout
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
         android:background="@android:color/white" />
 
-    <android.support.v4.view.ViewPager
+    <com.fine.vegetables.view.ScrollableViewPager
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />
-
 
 </LinearLayout>

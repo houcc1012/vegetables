@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.fine.vegetables.R;
+
 
 /**
  * 带有返回键的tablayout
@@ -54,9 +56,9 @@ public class SlidingTabTitle extends SlidingTabLayout {
         leftView.setGravity(Gravity.CENTER);
         leftView.setPadding(paddingHorizontal, 0, paddingHorizontal, 0);
         if(mWhiteBack){
-            leftView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_tb_back_white, 0, 0, 0);
+            leftView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_tab_back, 0, 0, 0);
         }else {
-            leftView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_tb_back_black, 0, 0, 0);
+            leftView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_tab_back, 0, 0, 0);
         }
         leftView.setOnClickListener(new OnClickListener() {
             @Override

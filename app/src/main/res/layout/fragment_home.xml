@@ -1,34 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background">
+    android:background="@color/background"
+    android:orientation="vertical">
 
     <com.fine.vegetables.view.TitleBar
         android:id="@+id/titleBar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:paddingLeft="@dimen/common_margin"
-        android:paddingTop="10dp"
         android:paddingRight="@dimen/common_margin"
-        android:paddingBottom="10dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
         app:customView="@layout/view_search_layout" />
 
-    <android.support.v4.widget.SwipeRefreshLayout
+    <com.fine.vegetables.view.CustomSwipeRefreshLayout
         android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <RecyclerView
+        <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/common_margin"
-            android:paddingTop="10dp"
-            android:paddingRight="@dimen/common_margin"
-            android:paddingBottom="10dp" />
-    </android.support.v4.widget.SwipeRefreshLayout>
+            android:layout_height="match_parent" />
+    </com.fine.vegetables.view.CustomSwipeRefreshLayout>
 
 
-</android.support.v7.widget.LinearLayoutCompat>
+</LinearLayout>

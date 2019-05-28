@@ -13,7 +13,7 @@ public class EditTextClear extends AppCompatEditText {
     /**
      * 步骤1：定义左侧搜索图标 & 一键删除图标
      */
-    private Drawable clearDrawable,searchDrawable;
+    private Drawable clearDrawable, searchDrawable;
 
     public EditTextClear(Context context) {
         super(context);
@@ -35,8 +35,8 @@ public class EditTextClear extends AppCompatEditText {
      * 步骤2：初始化 图标资源
      */
     private void init() {
-        clearDrawable = getResources().getDrawable(R.drawable.ic_close);
-        searchDrawable = getResources().getDrawable(R.drawable.ic_search);
+        clearDrawable = getResources().getDrawable(R.drawable.ic_delete_small);
+        searchDrawable = getResources().getDrawable(R.drawable.ic_search_small);
 
         setCompoundDrawablesWithIntrinsicBounds(searchDrawable, null,
                 null, null);

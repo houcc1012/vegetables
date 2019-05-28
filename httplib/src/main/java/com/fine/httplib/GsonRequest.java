@@ -80,6 +80,8 @@ public class GsonRequest<T> extends Request<T> {
         try {
             json = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
 
+            System.out.println("reponse:"+json);
+
             CookieManger.getInstance().parse(response.headers);
 
             T result;

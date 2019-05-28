@@ -16,5 +16,6 @@
     <color name="unluckyText">#999</color>
     <color name="luckyText">#666</color>
     <color name="primaryText">#222</color>
-    <color name="divider">#fff5f5f5</color>
+    <color name="divider">#f5f5f5</color>
+    <color name="tran_divider">#80f5f5f5</color>
 </resources>

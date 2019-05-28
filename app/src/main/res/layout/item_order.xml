@@ -1,33 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tool="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/common_margin"
     android:background="@drawable/bg_white_radius_four"
+    android:orientation="vertical"
     android:paddingLeft="18dp"
+    android:paddingTop="15dp"
     android:paddingRight="18dp"
-    android:paddingTop="15dp">
+    android:paddingBottom="14dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="26dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/orderId"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/unluckyText"
+            android:textIsSelectable="true"
+            android:textSize="12sp"
+            tool:text="共4件商品" />
+
+        <TextView
+            android:id="@+id/orderStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textColor="@color/blackPrimary"
+            android:textSize="14sp"
+            tool:text="带送达" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginBottom="25dp"
+        android:layout_marginBottom="10dp"
         android:gravity="center"
         android:orientation="horizontal">
 
-        <GridView
-            android:id="@+id/gridView"
+        <com.fine.vegetables.view.CommodityImagesView
+            android:id="@+id/commodityImgs"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:columnWidth="50dp" />
 
         <ImageView
+            android:id="@+id/seeDetail"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
-            android:paddingLeft="20dp"
             android:scaleType="centerInside"
             android:src="@drawable/ic_right" />
 
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textColor="@color/unluckyText"
+            android:textSize="12sp"
+            tool:text="2019/04/16 19:28" />
+
+        <TextView
+            android:id="@+id/totalAmount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:textColor="@color/unluckyText"
+            android:textSize="12sp"
+            tool:text="共4件商品" />
+
+    </LinearLayout>
+
 
 </LinearLayout>

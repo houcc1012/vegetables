@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tool="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    android:background="@drawable/bg_white_radius_four"
     android:orientation="vertical"
     android:padding="10dp">
 
@@ -26,6 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:maxLines="1"
             android:textColor="@color/blackPrimary"
             android:textSize="@dimen/common_text_size"
             tool:text="生菜" />
@@ -35,7 +39,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/unluckyText"
-            android:textSize="@dimen/common_text_size"
+            android:textSize="12sp"
             tool:text="@string/per_jin" />
     </LinearLayout>
 
@@ -47,7 +51,7 @@
 
         <TextView
             android:id="@+id/price"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textColor="@color/redPrimary"
@@ -56,12 +60,16 @@
 
         <com.fine.vegetables.view.AmountView
             android:id="@+id/amount"
-            android:layout_width="58dp"
-            android:layout_height="20dp" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:btnWidth="15dp" />
 
     </LinearLayout>
 
-    <include layout="@layout/view_cart_btn" />
+    <include
+        layout="@layout/view_cart_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 
 </LinearLayout>

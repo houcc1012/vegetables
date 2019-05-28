@@ -1,18 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/btn_gray_radius_sixteen"
+    android:background="@color/background"
     android:orientation="vertical">
 
-    <com.fine.vegetables.view.TitleBar
-        android:id="@+id/titleBar"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:backFeature="true"
-        app:customView="@layout/view_search"
-        app:rightImage="@drawable/ic_cart"
-        app:rightVisible="true" />
+        android:layout_height="48dp"
+        android:background="@color/white"
+        android:paddingLeft="@dimen/common_margin"
+        android:paddingRight="@dimen/common_margin">
 
-</android.support.v7.widget.LinearLayoutCompat>
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_tab_back" />
+
+        <com.fine.vegetables.view.EditTextClear
+            android:id="@+id/search"
+            android:layout_width="match_parent"
+            android:layout_height="32dp"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="50dp"
+            android:paddingRight="@dimen/common_margin"
+            android:drawablePadding="10dp"
+            android:background="@drawable/btn_gray_radius_sixteen"
+            android:maxLines="1"
+            android:paddingLeft="@dimen/common_margin"
+            android:textColor="@color/luckyText"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:id="@+id/cart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="4dp"
+            android:src="@drawable/ic_cart" />
+
+        <TextView
+            android:id="@+id/cartCount"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/bg_red_round"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="7sp"
+            android:visibility="gone"
+            tool:text="2" />
+
+    </RelativeLayout>
+
+
+    <com.fine.vegetables.view.CustomSwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone" />
+
+            <RelativeLayout
+                android:id="@+id/emptyLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/empty"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="190dp"
+                    android:src="@drawable/ic_search_empty" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/empty"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="20dp"
+                    android:text="没有找到您要的商品"
+                    android:textColor="@color/unluckyText"
+                    android:textSize="14sp" />
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </com.fine.vegetables.view.CustomSwipeRefreshLayout>
+
+</LinearLayout>

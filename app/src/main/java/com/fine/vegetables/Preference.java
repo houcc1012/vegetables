@@ -21,6 +21,7 @@ public class Preference {
 
     interface Key {
         String USER_JSON = "userJson";
+        String CART_JSON = "cartJson";
         String SERVER_IP_PORT = "server_ip_port";
         String SERVER_TIME = "server_time";
     }
@@ -85,6 +86,13 @@ public class Preference {
         return mPrefs.getString(Key.USER_JSON, null);
     }
 
+    public void setCartJson(String userId, String cartJson) {
+        apply(userId, cartJson);
+    }
+
+    public String getCartJson(String userId) {
+        return mPrefs.getString(userId, null);
+    }
 
 
 }

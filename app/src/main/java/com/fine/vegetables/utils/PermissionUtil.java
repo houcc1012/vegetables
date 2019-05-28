@@ -3,11 +3,15 @@ package com.fine.vegetables.utils;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
+import android.net.Uri;
 import android.os.Build;
+import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.PermissionChecker;
 
@@ -165,9 +169,10 @@ public class PermissionUtil {
             return true;
         } else {
             ActivityCompat.requestPermissions(activity,
-                    new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE}, requestCode);
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, requestCode);
             return false;
         }
     }
+
 
 }

@@ -13,6 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
         app:backFeature="true"
+        app:hasBottomSplitLine="true"
         app:titleText="@string/commodity_list" />
 
     <LinearLayout
@@ -37,7 +38,7 @@
                 android:textSize="14sp" />
 
             <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/amount"
+                android:id="@+id/totalAmount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/luckyText"
@@ -46,18 +47,11 @@
 
         </LinearLayout>
 
-        <android.support.v4.widget.SwipeRefreshLayout
-            android:id="@+id/swipeRefreshLayout"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent" />
 
-            <ListView
-                android:id="@+id/listView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-
-        </android.support.v4.widget.SwipeRefreshLayout>
 
     </LinearLayout>
 

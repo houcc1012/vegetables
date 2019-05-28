@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.fine.vegetables.R;
+import com.fine.vegetables.model.Category;
 
 import java.util.List;
 
@@ -15,15 +16,19 @@ public class MenuListAdapter extends BaseAdapter {
 
     private Context context;
     private int selectItem = 0;
-    private List<String> list;
+    private List<Category> list;
 
-    public MenuListAdapter(Context context, List<String> list) {
+    public MenuListAdapter(Context context, List<Category> list) {
         this.list = list;
         this.context = context;
     }
 
     public int getSelectItem() {
         return selectItem;
+    }
+
+    public void addList(List<Category> list) {
+        this.list = list;
     }
 
     public void setSelectItem(int selectItem) {
@@ -66,7 +71,7 @@ public class MenuListAdapter extends BaseAdapter {
             holder.name.setTextColor(context.getResources().getColor(R.color.unluckyText));
             holder.index.setVisibility(View.INVISIBLE);
         }
-        holder.name.setText(list.get(arg0));
+        holder.name.setText(list.get(arg0).getName());
         return arg1;
     }
 

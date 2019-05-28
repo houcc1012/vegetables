@@ -33,7 +33,7 @@ public class API extends RequestManager {
     }
 
     public static String getDomain() {
-        return HOST.substring(0, HOST.indexOf("?"));
+        return HOST;
     }
 
     private static Set<String> sCurrentUrls = new HashSet<>();

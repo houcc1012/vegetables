@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.fine.vegetables.R;
+import com.fine.vegetables.activity.MainActivity;
 
 public class BottomTabs extends LinearLayout {
     private static final int KEY_POSITION = -2;
@@ -53,7 +54,7 @@ public class BottomTabs extends LinearLayout {
 
     private void init() {
         mIcons = new int[]{R.drawable.tab_home, R.drawable.tab_category, R.drawable.tab_cart, R.drawable.tab_mine};
-        mTexts = new int[]{R.string.home, R.string.classify, R.string.cart,  R.string.mine,};
+        mTexts = new int[]{R.string.home, R.string.classify, R.string.cart, R.string.mine,};
 
         setOrientation(HORIZONTAL);
         if (mIcons != null && mTexts != null) {
@@ -62,6 +63,10 @@ public class BottomTabs extends LinearLayout {
         for (int i = 0; i < mLength; i++) {
             LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
             params.weight = 1;
+            if (i == MainActivity.PAGE_CART) {
+                addView(createPointTab(i), params);
+                continue;
+            }
             addView(createTab(i), params);
         }
         selectTab(0);
@@ -87,6 +92,38 @@ public class BottomTabs extends LinearLayout {
             }
         });
         return text;
+    }
+
+    private View createPointTab(int i) {
+        RedPointTextView text = new RedPointTextView(getContext());
+        text.setTextSize(TypedValue.COMPLEX_UNIT_PX, mTextSize);
+        text.setTextColor(mTextColor != null ? mTextColor : ColorStateList.valueOf(0));
+        text.setText(mTexts[i]);
+        text.setPadding(0, mPaddingTop, 0, mPaddingBottom);
+        text.setCompoundDrawablePadding(mInterval);
+        text.setCompoundDrawablesWithIntrinsicBounds(0, mIcons[i], 0, 0);
+        text.setGravity(Gravity.CENTER);
+        text.setTag(KEY_POSITION, i);
+        text.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int pos = (int) view.getTag(KEY_POSITION);
+                if (mOnTabClickListener != null) {
+                    mOnTabClickListener.onTabClick(pos);
+                }
+            }
+        });
+        return text;
+    }
+
+    public void setPointNum(int index, int num) {
+        RedPointTextView tabTextView = (RedPointTextView) getChildAt(index);
+        tabTextView.setNum(num);
+    }
+
+    public void addPointNum(int index, int num) {
+        RedPointTextView tabTextView = (RedPointTextView) getChildAt(index);
+        tabTextView.addNum(num);
     }
 
 

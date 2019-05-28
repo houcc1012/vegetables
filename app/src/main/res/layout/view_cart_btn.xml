@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/addCart"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="@drawable/btn_green_radius_thirteen">
 
@@ -9,11 +9,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:gravity="center"
         android:drawableLeft="@drawable/ic_cart_white"
         android:drawablePadding="4dp"
-        android:paddingTop="6dp"
-        android:paddingBottom="6dp"
+        android:gravity="center"
+        android:padding="6dp"
         android:text="@string/add_cart"
         android:textColor="@color/white"
         android:textSize="12sp" />

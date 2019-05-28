@@ -35,7 +35,7 @@ import java.lang.reflect.Field;
 
 public class PasswordEditText extends LinearLayout {
 
-    private static final float DEFAULT_LINE_HEIGHT = 0.5f;
+    private static final float DEFAULT_LINE_HEIGHT = 1.0f;
 
     private EditText mPassword;
     private ImageView mShowPassword;

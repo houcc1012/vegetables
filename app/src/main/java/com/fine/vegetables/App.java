@@ -2,8 +2,10 @@ package com.fine.vegetables;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 
 import com.fine.httplib.CookieManger;
+import com.fine.vegetables.activity.LoginActivity;
 import com.fine.vegetables.net.API;
 
 
@@ -20,11 +22,15 @@ public class App extends Application {
         handleUncaughtException();
     }
 
+
+
     private void handleUncaughtException() {
         Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
             @Override
             public void uncaughtException(Thread thread, Throwable ex) {
-//                Preference.get().setForeground(false);
+                Intent intent = new Intent(sContext, LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
                 System.exit(1);
             }
         });

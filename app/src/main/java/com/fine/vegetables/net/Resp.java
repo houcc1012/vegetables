@@ -6,11 +6,6 @@ import java.util.List;
 public class Resp<T> {
     private int code;
     private String msg;
-    private int page;
-    private int pageSize;
-    private int resultCount;
-    private int total;
-
     private T data;
 
     public int getCode() {
@@ -21,13 +16,6 @@ public class Resp<T> {
         return msg;
     }
 
-    public int getResultCount() {
-        return resultCount;
-    }
-
-    public void setResultCount(int resultCount) {
-        this.resultCount = resultCount;
-    }
 
     public void setMsg() {
         msg = "";
@@ -42,8 +30,9 @@ public class Resp<T> {
     }
 
     public boolean isTokenExpired() {
-        return code == 503;
+        return code == 211 || code ==214;
     }
+
 
     /**
      * Check if data is null (null or empty if data is a list)

@@ -2,6 +2,7 @@ package com.fine.vegetables.model;
 
 import android.text.TextUtils;
 
+import com.fine.httplib.CookieManger;
 import com.fine.vegetables.Preference;
 import com.google.gson.Gson;
 
@@ -43,11 +44,6 @@ public class LocalUser {
 
     public void setUserInfo(UserInfo userInfo) {
         mUserInfo = userInfo;
-        saveToPreference();
-    }
-
-    public void setNewUser(boolean isNewUser) {
-        mUserInfo.setNewUser(isNewUser);
         saveToPreference();
     }
 

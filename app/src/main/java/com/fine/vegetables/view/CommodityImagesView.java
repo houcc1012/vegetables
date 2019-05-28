@@ -22,6 +22,7 @@ public class CommodityImagesView extends LinearLayout {
     private ImageView imageView2;
     private ImageView imageView3;
     private ImageView imageView4;
+    private ImageView imageView5;
 
     public CommodityImagesView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -31,43 +32,77 @@ public class CommodityImagesView extends LinearLayout {
         imageView2 = findViewById(R.id.image2);
         imageView3 = findViewById(R.id.image3);
         imageView4 = findViewById(R.id.image4);
+        imageView5 = findViewById(R.id.image5);
 
     }
 
-    public void loadImages(String... imageUrls) {
-        switch (imageUrls.length) {
+    public void loadImages(List<String> urls) {
+        switch (urls.size()) {
             case 1:
-                loadImage(imageView1, imageUrls[0]);
+                loadImage(imageView1, urls.get(0));
                 imageView1.setVisibility(View.VISIBLE);
                 imageView2.setVisibility(View.INVISIBLE);
                 imageView3.setVisibility(View.INVISIBLE);
                 imageView4.setVisibility(View.INVISIBLE);
+                imageView5.setVisibility(View.INVISIBLE);
                 break;
             case 2:
-                loadImage(imageView2, imageUrls[0]);
-                imageView1.setVisibility(View.INVISIBLE);
+                loadImage(imageView1, urls.get(0));
+                loadImage(imageView2, urls.get(1));
+                imageView1.setVisibility(View.VISIBLE);
                 imageView2.setVisibility(View.VISIBLE);
                 imageView3.setVisibility(View.INVISIBLE);
                 imageView4.setVisibility(View.INVISIBLE);
+                imageView5.setVisibility(View.INVISIBLE);
                 break;
             case 3:
-                loadImage(imageView3, imageUrls[0]);
-                imageView1.setVisibility(View.INVISIBLE);
-                imageView2.setVisibility(View.INVISIBLE);
+                loadImage(imageView1, urls.get(0));
+                loadImage(imageView2, urls.get(1));
+                loadImage(imageView3, urls.get(2));
+                imageView1.setVisibility(View.VISIBLE);
+                imageView2.setVisibility(View.VISIBLE);
                 imageView3.setVisibility(View.VISIBLE);
                 imageView4.setVisibility(View.INVISIBLE);
+                imageView5.setVisibility(View.INVISIBLE);
                 break;
             case 4:
-                loadImage(imageView4, imageUrls[0]);
-                imageView1.setVisibility(View.INVISIBLE);
-                imageView2.setVisibility(View.INVISIBLE);
-                imageView3.setVisibility(View.INVISIBLE);
+                loadImage(imageView1, urls.get(0));
+                loadImage(imageView2, urls.get(1));
+                loadImage(imageView3, urls.get(2));
+                loadImage(imageView4, urls.get(3));
+                imageView1.setVisibility(View.VISIBLE);
+                imageView2.setVisibility(View.VISIBLE);
+                imageView3.setVisibility(View.VISIBLE);
                 imageView4.setVisibility(View.VISIBLE);
+                imageView5.setVisibility(View.INVISIBLE);
+                break;
+            case 5:
+                loadImage(imageView1, urls.get(0));
+                loadImage(imageView2, urls.get(1));
+                loadImage(imageView3, urls.get(2));
+                loadImage(imageView4, urls.get(3));
+                loadImage(imageView5, urls.get(4));
+                imageView1.setVisibility(View.VISIBLE);
+                imageView2.setVisibility(View.VISIBLE);
+                imageView3.setVisibility(View.VISIBLE);
+                imageView4.setVisibility(View.VISIBLE);
+                imageView5.setVisibility(View.VISIBLE);
                 break;
             default:
+                loadImage(imageView1, urls.get(0));
+                loadImage(imageView2, urls.get(1));
+                loadImage(imageView3, urls.get(2));
+                loadImage(imageView4, urls.get(3));
+                loadImage(imageView5, urls.get(4));
+                imageView1.setVisibility(View.VISIBLE);
+                imageView2.setVisibility(View.VISIBLE);
+                imageView3.setVisibility(View.VISIBLE);
+                imageView4.setVisibility(View.VISIBLE);
+                imageView5.setVisibility(View.VISIBLE);
                 break;
 
         }
+        ;
     }
 
     private void loadImage(ImageView imageView, String url) {

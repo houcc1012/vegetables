@@ -13,18 +13,19 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
         app:backFeature="true"
-        app:titleText="@string/commodity_list" />
+        app:titleText="@string/order_detail" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/white"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="1dp"
+            android:background="@color/white"
             android:orientation="horizontal"
             android:padding="@dimen/common_margin">
 
@@ -46,18 +47,63 @@
 
         </LinearLayout>
 
-        <android.support.v4.widget.SwipeRefreshLayout
-            android:id="@+id/swipeRefreshLayout"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@color/background" />
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+    </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:paddingTop="20dp"
+        android:paddingBottom="16dp">
 
-        </android.support.v4.widget.SwipeRefreshLayout>
+        <TextView
+            android:id="@+id/expectMoney"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textColor="@color/unluckyText"
+            android:textSize="12sp"
+            tool:text="预计金额: ￥858.90" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:text="实际金额"
+                android:textColor="@color/blackPrimary"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/actualMoney"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:textColor="@color/redPrimary"
+                android:textSize="18sp"
+                tool:text="￥758.90" />
+
+        </LinearLayout>
+
 
     </LinearLayout>
 

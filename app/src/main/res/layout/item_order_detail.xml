@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tool="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="1dp"
+    android:background="@color/white"
+    android:orientation="horizontal"
+    android:padding="@dimen/common_margin">
+
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/commodityImg"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginRight="20dp"
+        tool:src="@drawable/ic_cart" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/commodityName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="1"
+                android:textColor="@color/luckyText"
+                android:textSize="14sp"
+                tool:text="澳洲精选冷冻金钱腱子肉" />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/sumAmount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:textColor="@color/luckyText"
+                android:textSize="14sp"
+                tool:text="10" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/price"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:textColor="@color/unluckyText"
+                android:textSize="12sp"
+                tool:text="单价: ￥12.8" />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/actualAmout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textColor="@color/blackPrimary"
+                android:textSize="14sp"
+                tool:text="实际 10 斤" />
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>

@@ -1,43 +1,57 @@
 package com.fine.vegetables.fragment;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 
+import com.android.volley.VolleyError;
 import com.fine.vegetables.R;
+import com.fine.vegetables.activity.MainActivity;
 import com.fine.vegetables.activity.SearchActivity;
-import com.fine.vegetables.adapter.CommodityListAdapter;
+import com.fine.vegetables.adapter.CommodityAdapter;
+import com.fine.vegetables.listener.OnAddCartListener;
 import com.fine.vegetables.model.Commodity;
+import com.fine.vegetables.net.Callback2D;
+import com.fine.vegetables.net.Client;
+import com.fine.vegetables.net.Page;
+import com.fine.vegetables.net.Resp;
 import com.fine.vegetables.utils.Launcher;
+import com.fine.vegetables.view.CustomSwipeRefreshLayout;
 import com.fine.vegetables.view.TitleBar;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-public class HomeFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
+public class HomeFragment extends BaseFragment implements
+        SwipeRefreshLayout.OnRefreshListener, CustomSwipeRefreshLayout.OnLoadMoreListener {
 
     Unbinder unbinder;
 
     @BindView(R.id.titleBar)
     TitleBar mTitleBar;
     @BindView(R.id.swipeRefreshLayout)
-    SwipeRefreshLayout mSwipeRefreshLayout;
+    CustomSwipeRefreshLayout mSwipeRefreshLayout;
     @BindView(R.id.recyclerView)
     RecyclerView mRecyclerView;
 
-    private CommodityListAdapter mCommodityListAdapter;
+    private CommodityAdapter mCommodityListAdapter;
     private List<Commodity> mCommodityList = new ArrayList<>();
+    private int mPage;
 
     @Nullable
     @Override
@@ -55,8 +69,17 @@ public class HomeFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 
     private void initView() {
         mSwipeRefreshLayout.setOnRefreshListener(this);
-        mCommodityListAdapter = new CommodityListAdapter(mCommodityList, getActivity());
-        mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+        mSwipeRefreshLayout.setOnLoadMoreListener(this);
+        mCommodityListAdapter = new CommodityAdapter(mCommodityList, getActivity());
+        mCommodityListAdapter.setOnAddCartListener(new OnAddCartListener() {
+            @Override
+            public void onClick(Drawable drawable, int[] startLocation) {
+                if (getActivity() instanceof MainActivity) {
+                    ((MainActivity) getActivity()).startCartAnim(drawable, startLocation);
+                }
+            }
+        });
+        mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         mRecyclerView.setAdapter(mCommodityListAdapter);
 
     }
@@ -68,10 +91,45 @@ public class HomeFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     }
 
     private void requestCommodities() {
+        Client.getCommodityList(null, mPage, Client.PAGE_SIZE).setTag(TAG)
+                .setCallback(new Callback2D<Resp<Page<List<Commodity>>>, Page<List<Commodity>>>() {
+
+                    @Override
+                    protected void onRespSuccessData(Page<List<Commodity>> page) {
+                        updateCommodities(page.getData());
+                    }
+
+                    @Override
+                    public void onFailure(VolleyError volleyError) {
+                        super.onFailure(volleyError);
+                        stopRefreshAnimation();
+                    }
+                }).fireFree();
+
     }
 
-    private void updateCommodities() {
+    private void updateCommodities(List<Commodity> data) {
 
+        stopRefreshAnimation();
+        if (mPage == 0) {
+            mCommodityListAdapter.clear();
+        }
+        mCommodityListAdapter.add(data);
+        if (data.size() >= Client.PAGE_SIZE) {
+            mSwipeRefreshLayout.setLoadMoreEnable(true);
+            mPage++;
+        }
+        mCommodityListAdapter.notifyDataSetChanged();
+
+    }
+
+    private void stopRefreshAnimation() {
+        if (mSwipeRefreshLayout.isRefreshing()) {
+            mSwipeRefreshLayout.setRefreshing(false);
+        }
+        if (mSwipeRefreshLayout.isLoading()) {
+            mSwipeRefreshLayout.setLoading(false);
+        }
     }
 
     @OnClick(R.id.titleBar)
@@ -86,8 +144,19 @@ public class HomeFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         unbinder.unbind();
     }
 
+    private void reset() {
+        mPage = 0;
+        mSwipeRefreshLayout.setLoadMoreEnable(true);
+    }
+
     @Override
     public void onRefresh() {
+        reset();
+        requestCommodities();
+    }
+
+    @Override
+    public void onLoadMore() {
         requestCommodities();
     }
 }

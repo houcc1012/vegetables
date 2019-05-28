@@ -109,7 +109,7 @@ public class SlidingTabLayout extends HorizontalScrollView {
     public SlidingTabLayout(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
 
-        mTabTextViewColor = ContextCompat.getColorStateList(getContext(), R.color.green);
+        mTabTextViewColor = ContextCompat.getColorStateList(getContext(), R.color.blackPrimary);
 
         // Disable the Scroll Bar
         setHorizontalScrollBarEnabled(false);

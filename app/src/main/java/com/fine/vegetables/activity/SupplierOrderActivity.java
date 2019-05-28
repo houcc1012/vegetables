@@ -7,11 +7,15 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.view.View;
 
 import com.fine.vegetables.R;
-import com.fine.vegetables.fragment.SupplierHistoryOrderFragment;
-import com.fine.vegetables.fragment.SupplierNoDeliveryOrderFragment;
+import com.fine.vegetables.dialog.QuitDialogFragment;
+import com.fine.vegetables.fragment.OrderFragment;
+import com.fine.vegetables.fragment.SupplierOrderFragment;
+import com.fine.vegetables.model.LocalUser;
 import com.fine.vegetables.utils.Display;
+import com.fine.vegetables.view.TitleBar;
 import com.fine.vegetables.view.slidingTab.SlidingTabLayout;
 
 import butterknife.BindView;
@@ -22,6 +26,8 @@ public class SupplierOrderActivity extends BaseActivity {
     SlidingTabLayout tabLayout;
     @BindView(R.id.viewPager)
     ViewPager viewPager;
+    @BindView(R.id.titleBar)
+    TitleBar titleBar;
 
     private SupplierPagesAdapter supplierPagesAdapter;
 
@@ -35,6 +41,13 @@ public class SupplierOrderActivity extends BaseActivity {
 
 
     private void initView() {
+        titleBar.setTitle(LocalUser.getUser().getUserInfo().getConcatName());
+        titleBar.setOnRightViewClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                QuitDialogFragment.newInstance(LocalUser.getUser().getUserInfo().getAccount()).show(getSupportFragmentManager());
+            }
+        });
         viewPager.setOffscreenPageLimit(1);
         viewPager.setCurrentItem(0, false);
         supplierPagesAdapter = new SupplierPagesAdapter(getSupportFragmentManager(), getActivity());
@@ -42,11 +55,11 @@ public class SupplierOrderActivity extends BaseActivity {
 //        viewPager.addOnPageChangeListener(this);
 
         tabLayout.setDistributeEvenly(true);
+        tabLayout.setSelectedIndicatorColors(ContextCompat.getColor(getActivity(), R.color.green));
         tabLayout.setDividerColors(ContextCompat.getColor(getActivity(), android.R.color.transparent));
         tabLayout.setSelectedIndicatorPadding(Display.dp2Px(60, getResources()));
         tabLayout.setPadding(Display.dp2Px(13, getResources()));
         tabLayout.setViewPager(viewPager);
-//        mTitleBar.setOnTitleBarClickListener(this);
     }
 
     static class SupplierPagesAdapter extends FragmentPagerAdapter {
@@ -75,9 +88,9 @@ public class SupplierOrderActivity extends BaseActivity {
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    return new SupplierNoDeliveryOrderFragment();
+                    return SupplierOrderFragment.newInstance(OrderFragment.ORDER_TYPE_NO_SEND);
                 case 1:
-                    return new SupplierHistoryOrderFragment();
+                    return SupplierOrderFragment.newInstance(OrderFragment.ORDER_TYPE_FINISHED);
             }
             return null;
         }

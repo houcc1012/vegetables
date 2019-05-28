@@ -39,7 +39,7 @@
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/selectTime"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:drawableRight="@drawable/ic_right"
                 android:drawablePadding="10dp"
                 android:text="@string/please_select_send_time"
@@ -55,14 +55,15 @@
             android:gravity="center"
             android:orientation="horizontal">
 
-            <GridView
-                android:id="@+id/gridView"
+            <com.fine.vegetables.view.CommodityImagesView
+                android:id="@+id/commodityImgs"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:columnWidth="50dp" />
 
             <ImageView
+                android:id="@+id/seeDetail"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
                 android:paddingLeft="20dp"
