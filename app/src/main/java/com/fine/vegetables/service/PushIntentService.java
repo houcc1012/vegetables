@@ -170,6 +170,9 @@ public class PushIntentService extends GTIntentService {
                 if (LocalUser.getUser().getUserInfo() != null && LocalUser.getUser().getUserInfo().getType() == 2) {
                     intent = new Intent(context, OrderDetailPushActivity.class);
                     intent.putExtra(Launcher.EX_PAYLOAD, data.getDataId());
+                } else {
+                    intent = new Intent(context, OrderDetailActivity.class);
+                    intent.putExtra(Launcher.EX_PAYLOAD, data.getDataId());
                 }
                 break;
             default:
