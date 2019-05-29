@@ -116,14 +116,17 @@
                 android:layout_weight="1"
                 android:orientation="vertical">
 
-                <android.support.v7.widget.AppCompatTextView
+                <com.fine.vegetables.utils.AutofitTextView
                     android:id="@+id/totalPrice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
+                    android:maxLines="1"
                     android:textColor="@color/redPrimary"
                     android:textSize="18sp"
                     android:textStyle="bold"
+                    app:autoSizeMaxTextSize="18sp"
+                    app:minTextSize="14sp"
                     tool:text="$858.90" />
 
                 <android.support.v7.widget.AppCompatTextView

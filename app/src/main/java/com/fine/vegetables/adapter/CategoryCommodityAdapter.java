@@ -111,14 +111,32 @@ public class CategoryCommodityAdapter extends BaseAdapter {
             public void onClick(View v) {
                 int amount = Integer.valueOf(finalViewHold.amount.getAmount());
                 if (amount > 0) {
-                    Cart.get().addCommodity(commodity, amount);
+                    if (amount >= 1000) {
+                        finalViewHold.amount.setAmount(String.valueOf(999));
+                        Cart.get().addCommodity(commodity, 999);
+                    } else {
+                        Cart.get().addCommodity(commodity, amount);
+                    }
+                    if (mOnAddCartListener != null) {
+                        int[] startLocation = new int[2];
+                        finalViewHold.commodityImg.getLocationInWindow(startLocation);
+                        Drawable drawable = finalViewHold.commodityImg.getDrawable();
+                        mOnAddCartListener.onClick(drawable, startLocation);
+                    }
                 }
-                if (mOnAddCartListener != null) {
-                    int[] startLocation = new int[2];
-                    finalViewHold.commodityImg.getLocationInWindow(startLocation);
-                    Drawable drawable = finalViewHold.commodityImg.getDrawable();
-                    mOnAddCartListener.onClick(drawable, startLocation);
+            }
+        });
+
+        viewHold.amount.setOnAmountChangeListener(new AmountView.OnAmountChangeListener() {
+            @Override
+            public void onAmountChange(View view, String amount) {
+                Integer nowCount = Integer.valueOf(amount);
+                if (nowCount >= 1000) {
+                    finalViewHold.amount.setAmount(String.valueOf(999));
+                } else {
+                    finalViewHold.amount.setAmount(String.valueOf(nowCount));
                 }
+
             }
         });
 

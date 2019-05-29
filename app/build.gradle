@@ -5,11 +5,17 @@ android {
     defaultConfig {
         applicationId "com.fine.vegetables"
         minSdkVersion 14
-        targetSdkVersion 28
+        targetSdkVersion 27
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         buildConfigField('String', 'HOST', '\"http://vegeapi.dyzchina.com\"')
+
+        manifestPlaceholders = [
+                GETUI_APP_ID    : "ZkA0bDcyItATMuauUuLP48",
+                GETUI_APP_KEY   : "2XlKN6vfQOAxhJjNpvq7m4",
+                GETUI_APP_SECRET: "MEfEa6P0Zh8Psxa1aC3ZI2"
+        ]
 
 
     }
@@ -32,6 +38,12 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
+        }
+    }
+
+    android.applicationVariants.all { variant ->
+        variant.outputs.all {
+            outputFileName = "vegetables-${variant.name}-${variant.versionName}.apk"
         }
     }
 
@@ -58,4 +70,5 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
     implementation project(path: ':httplib')
     implementation 'com.android.support:design:28.0.0'
+    implementation 'com.getui:sdk:2.10.2.0'
 }

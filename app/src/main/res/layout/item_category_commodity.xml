@@ -54,7 +54,7 @@
                 android:layout_weight="1"
                 android:gravity="right"
                 android:textColor="@color/redPrimary"
-                android:textSize="18sp"
+                android:textSize="13sp"
                 tool:text="21.90" />
 
         </LinearLayout>

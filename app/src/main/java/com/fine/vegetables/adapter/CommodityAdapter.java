@@ -129,14 +129,31 @@ public class CommodityAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 public void onClick(View v) {
                     int amount = Integer.valueOf(amountView.getAmount());
                     if (amount > 0) {
-                        Cart.get().addCommodity(commodity, amount);
+                        if (amount >= 1000) {
+                            amountView.setAmount(String.valueOf(999));
+                            Cart.get().addCommodity(commodity, 999);
+                        } else {
+                            Cart.get().addCommodity(commodity, amount);
+                        }
+                        if (mOnAddCartListener != null) {
+                            int[] startLocation = new int[2];
+                            commodityImg.getLocationInWindow(startLocation);
+                            Drawable drawable = commodityImg.getDrawable();
+                            mOnAddCartListener.onClick(drawable, startLocation);
+                        }
                     }
-                    if (mOnAddCartListener != null) {
-                        int[] startLocation = new int[2];
-                        commodityImg.getLocationInWindow(startLocation);
-                        Drawable drawable = commodityImg.getDrawable();
-                        mOnAddCartListener.onClick(drawable, startLocation);
+                }
+            });
+            amountView.setOnAmountChangeListener(new AmountView.OnAmountChangeListener() {
+                @Override
+                public void onAmountChange(View view, String amount) {
+                    Integer nowCount = Integer.valueOf(amount);
+                    if (nowCount >= 1000) {
+                        amountView.setAmount(String.valueOf(999));
+                    } else {
+                        amountView.setAmount(String.valueOf(nowCount));
                     }
+
                 }
             });
             amountView.clearFocus();

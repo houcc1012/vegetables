@@ -15,7 +15,6 @@ import com.fine.vegetables.listener.OnAmountChangeListener;
 import com.fine.vegetables.model.SellerOrder;
 import com.fine.vegetables.view.AmountView;
 
-import java.text.NumberFormat;
 import java.util.List;
 
 import butterknife.BindView;
@@ -101,7 +100,7 @@ public class SupplierOrderDetailAdapter extends RecyclerView.Adapter<RecyclerVie
         @BindView(R.id.price)
         AppCompatTextView price;
         @BindView(R.id.amount)
-        AmountView amount;
+        AmountView amountView;
         @BindView(R.id.unit)
         AppCompatTextView unit;
 
@@ -118,15 +117,20 @@ public class SupplierOrderDetailAdapter extends RecyclerView.Adapter<RecyclerVie
                     .into(commodityImg);
             commodityName.setText(data.getVegetableName());
             price.setText(context.getString(R.string.yuan_symbol_, String.valueOf(data.getPrice())));
-            sumAmount.setText(data.getExpectWeightStr() + data.getUnitName());
+            sumAmount.setText(data.getExpectWeight() + data.getUnitName());
             unit.setText(data.getUnitName());
-            amount.setAmount(data.getActualWeightStr());
-            amount.setOnAmountChangeListener(new AmountView.OnAmountChangeListener() {
+            amountView.setAmount(data.getActualWeight());
+            amountView.setOnAmountChangeListener(new AmountView.OnAmountChangeListener() {
                 @Override
                 public void onAmountChange(View view, String amount) {
                     Double nowCount = Double.valueOf(amount);
-                    if (nowCount != data.getActualWeight()) {
-                        data.setActualWeight(nowCount);
+                    if (nowCount != Double.valueOf(data.getActualWeight())) {
+                        if (nowCount >= 1000) {
+                            amountView.setAmount(String.valueOf(999));
+                            data.setActualWeight("999");
+                        } else {
+                            data.setActualWeight(String.valueOf(nowCount));
+                        }
                         if (mOnAmountChangeListener != null) {
                             mOnAmountChangeListener.change();
                         }
@@ -160,8 +164,8 @@ public class SupplierOrderDetailAdapter extends RecyclerView.Adapter<RecyclerVie
                     .into(commodityImg);
             commodityName.setText(data.getVegetableName());
             price.setText(context.getString(R.string.yuan_symbol_, String.valueOf(data.getPrice())));
-            sumAmount.setText(data.getExpectWeightStr() + data.getUnitName());
-            actualAmount.setText(context.getString(R.string.actual_amount_, data.getActualWeightStr(), data.getUnitName()));
+            sumAmount.setText(data.getExpectWeight() + data.getUnitName());
+            actualAmount.setText(context.getString(R.string.actual_amount_, data.getActualWeight(), data.getUnitName()));
         }
     }
 }

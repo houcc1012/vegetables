@@ -24,6 +24,7 @@ public class Preference {
         String CART_JSON = "cartJson";
         String SERVER_IP_PORT = "server_ip_port";
         String SERVER_TIME = "server_time";
+        String PUSH_CLIENT_ID = "PUSH_CLIENT_ID";
     }
 
     private static Preference sInstance;
@@ -92,6 +93,14 @@ public class Preference {
 
     public String getCartJson(String userId) {
         return mPrefs.getString(userId, null);
+    }
+
+    public void setPushClientId(String clientId) {
+        apply(Key.PUSH_CLIENT_ID, clientId);
+    }
+
+    public String getPushClientId() {
+        return mPrefs.getString(Key.PUSH_CLIENT_ID, "");
     }
 
 

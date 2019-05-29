@@ -82,11 +82,13 @@ public class LoginActivity extends BaseActivity {
         final String phoneNumber = getPhoneNumber();
         String password = mPassword.getPassword();
         password = md5Encrypt(password);
-        Client.login(phoneNumber, "123456", "1111").setTag(TAG)
+        mLogin.setEnabled(false);
+        Client.login(phoneNumber, password).setTag(TAG)
                 .setCallback(new Callback<Resp<UserInfo>>() {
                     @Override
                     public void onFinish() {
                         super.onFinish();
+                        mLogin.setEnabled(true);
                     }
 
                     @Override

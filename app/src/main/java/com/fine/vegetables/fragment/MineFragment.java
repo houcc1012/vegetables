@@ -84,7 +84,7 @@ public class MineFragment extends BaseFragment {
 
     private void initView() {
         UserInfo userInfo = LocalUser.getUser().getUserInfo();
-        userName.setText(userInfo.getConcatName());
+        userName.setText(userInfo.getName());
         userAccount.setText(userInfo.getAccount());
 
     }

@@ -7,13 +7,17 @@ import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.util.TypedValue;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.fine.vegetables.R;
+import com.fine.vegetables.utils.KeyBoardUtils;
 
 public class AmountView extends LinearLayout implements View.OnClickListener, TextWatcher {
 
@@ -25,6 +29,7 @@ public class AmountView extends LinearLayout implements View.OnClickListener, Te
     private EditText etAmount;
     private TextView btnDecrease;
     private TextView btnIncrease;
+    private String amountStr;
 
 
     public AmountView(Context context) {
@@ -66,6 +71,21 @@ public class AmountView extends LinearLayout implements View.OnClickListener, Te
         if (tvTextSize != 0) {
             etAmount.setTextSize(tvTextSize);
         }
+
+        etAmount.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                if (i == EditorInfo.IME_ACTION_UNSPECIFIED) {
+                    etAmount.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            KeyBoardUtils.closeKeyboard(etAmount);
+                        }
+                    }, 300);
+                }
+                return false;
+            }
+        });
     }
 
     public void setOnAmountChangeListener(OnAmountChangeListener onAmountChangeListener) {
@@ -110,9 +130,6 @@ public class AmountView extends LinearLayout implements View.OnClickListener, Te
                 }
             }
         }
-        if (mListener != null) {
-            mListener.onAmountChange(this, etAmount.getText().toString());
-        }
 
         etAmount.clearFocus();
     }
@@ -124,6 +141,7 @@ public class AmountView extends LinearLayout implements View.OnClickListener, Te
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
+        etAmount.setSelection(etAmount.length());
 
     }
 
@@ -131,7 +149,11 @@ public class AmountView extends LinearLayout implements View.OnClickListener, Te
     public void afterTextChanged(Editable s) {
         if (s.toString().isEmpty())
             return;
-
+        if (!s.toString().equalsIgnoreCase(amountStr)) {
+            if (mListener != null) {
+                mListener.onAmountChange(this, etAmount.getText().toString());
+            }
+        }
     }
 
     public String getAmount() {
@@ -139,6 +161,7 @@ public class AmountView extends LinearLayout implements View.OnClickListener, Te
     }
 
     public void setAmount(String amount) {
+        amountStr = amount;
         etAmount.setText(amount);
     }
 

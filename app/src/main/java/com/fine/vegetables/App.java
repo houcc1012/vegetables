@@ -7,6 +7,9 @@ import android.content.Intent;
 import com.fine.httplib.CookieManger;
 import com.fine.vegetables.activity.LoginActivity;
 import com.fine.vegetables.net.API;
+import com.fine.vegetables.service.PushIntentService;
+import com.fine.vegetables.service.PushService;
+import com.igexin.sdk.PushManager;
 
 
 public class App extends Application {
@@ -19,6 +22,8 @@ public class App extends Application {
         sContext = this;
         API.init(sContext.getCacheDir());
         CookieManger.getInstance().init(sContext.getFilesDir());
+        PushManager.getInstance().initialize(this.getApplicationContext(), PushService.class);
+        PushManager.getInstance().registerPushIntentService(this.getApplicationContext(), PushIntentService.class);
         handleUncaughtException();
     }
 

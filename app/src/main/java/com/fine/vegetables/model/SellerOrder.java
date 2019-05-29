@@ -148,9 +148,9 @@ public class SellerOrder implements Parcelable {
 
         private int id;
 
-        private double actualWeight;
+        private String actualWeight;
 
-        private double expectWeight;
+        private String expectWeight;
 
         private double price;
 
@@ -178,24 +178,16 @@ public class SellerOrder implements Parcelable {
             this.unitName = unitName;
         }
 
-        public double getActualWeight() {
+        public String getActualWeight() {
             return actualWeight;
-        }
-
-        public String getActualWeightStr() {
-            return NumberFormat.getInstance().format(actualWeight);
         }
 
         public double getPrice() {
             return price;
         }
 
-        public double getExpectWeight() {
+        public String getExpectWeight() {
             return expectWeight;
-        }
-
-        public String getExpectWeightStr() {
-            return NumberFormat.getInstance().format(expectWeight);
         }
 
 
@@ -207,11 +199,11 @@ public class SellerOrder implements Parcelable {
             return vegetableName;
         }
 
-        public void setActualWeight(double actualWeight) {
+        public void setActualWeight(String actualWeight) {
             this.actualWeight = actualWeight;
         }
 
-        public void setExpectWeight(double expectWeight) {
+        public void setExpectWeight(String expectWeight) {
             this.expectWeight = expectWeight;
         }
 
@@ -245,8 +237,8 @@ public class SellerOrder implements Parcelable {
 
         @Override
         public void writeToParcel(Parcel dest, int flags) {
-            dest.writeDouble(this.actualWeight);
-            dest.writeDouble(this.expectWeight);
+            dest.writeString(this.actualWeight);
+            dest.writeString(this.expectWeight);
             dest.writeDouble(this.price);
             dest.writeString(this.vegetableId);
             dest.writeString(this.vegetableLogo);
@@ -255,8 +247,8 @@ public class SellerOrder implements Parcelable {
         }
 
         protected DataBean(Parcel in) {
-            this.actualWeight = in.readDouble();
-            this.expectWeight = in.readDouble();
+            this.actualWeight = in.readString();
+            this.expectWeight = in.readString();
             this.price = in.readDouble();
             this.vegetableId = in.readString();
             this.vegetableLogo = in.readString();

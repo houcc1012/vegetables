@@ -138,6 +138,11 @@ public class SupplierOrderAdapter extends RecyclerView.Adapter<RecyclerView.View
                     }
                 }
             });
+            if (order.getConfirm() == 1) {
+                confirm.setText(R.string.confirm_send);
+            } else {
+                confirm.setText(R.string.confirm_info);
+            }
             confirm.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

@@ -25,6 +25,7 @@ import com.fine.vegetables.listener.OnSelectAmountChangeListener;
 import com.fine.vegetables.listener.OnSelectCartListener;
 import com.fine.vegetables.model.Cart;
 import com.fine.vegetables.model.CartItem;
+import com.fine.vegetables.utils.KeyBoardUtils;
 import com.fine.vegetables.utils.Launcher;
 import com.fine.vegetables.utils.ToastUtil;
 import com.fine.vegetables.view.SmartDialog;
@@ -79,9 +80,20 @@ public class CartFragment extends BaseFragment implements SwipeRefreshLayout.OnR
                 emptyLayout.setVisibility(View.GONE);
                 mRecyclerView.setVisibility(View.VISIBLE);
                 totalLayout.setVisibility(View.VISIBLE);
+                if (Cart.get().getCartItems().size() == Cart.get().getSelectedItems().size()) {
+                    selectAll.setSelected(true);
+                } else {
+                    selectAll.setSelected(false);
+                }
             }
         }
     };
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Cart.get().registerOnCartChangeListener(mOnCartChangeListener);
+    }
 
     @Nullable
     @Override
@@ -145,6 +157,20 @@ public class CartFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         mCartListAdapter = new CartListAdapter(Cart.get().getCartItems(), getActivity());
         mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 1));
         mRecyclerView.setAdapter(mCartListAdapter);
+//        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+//            @Override
+//            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+//                super.onScrolled(recyclerView, dx, dy);
+//                if (KeyBoardUtils.isSHowKeyboard(mRecyclerView)) {
+//                    mRecyclerView.postDelayed(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            KeyBoardUtils.closeKeyboard(mRecyclerView);
+//                        }
+//                    }, 300);
+//                }
+//            }
+//        });
         mCartListAdapter.setOnSelectCartListener(new OnSelectCartListener() {
             @Override
             public void select(CartItem cartItem) {
@@ -199,6 +225,11 @@ public class CartFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         updateDeleteBtn(!cartItems.isEmpty());
         mTotalAmount.setText(getString(R.string.total_, String.valueOf(cartItems.size())));
         mTotalPrice.setText(BigDecimal.valueOf(totalPrice).setScale(2, BigDecimal.ROUND_HALF_UP).toString());
+        if (cartItems.size() == Cart.get().getCartItems().size()) {
+            selectAll.setSelected(true);
+        } else {
+            selectAll.setSelected(false);
+        }
 
     }
 
@@ -246,13 +277,12 @@ public class CartFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     @Override
     public void onResume() {
         super.onResume();
-        Cart.get().registerOnCartChangeListener(mOnCartChangeListener);
         updateCartData();
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
+    public void onDestroy() {
+        super.onDestroy();
         Cart.get().unRegisterOnCartChangeListener(mOnCartChangeListener);
     }
 

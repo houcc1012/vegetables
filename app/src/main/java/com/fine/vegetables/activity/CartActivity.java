@@ -3,6 +3,7 @@ package com.fine.vegetables.activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.AppCompatTextView;
@@ -21,6 +22,7 @@ import com.fine.vegetables.listener.OnSelectAmountChangeListener;
 import com.fine.vegetables.listener.OnSelectCartListener;
 import com.fine.vegetables.model.Cart;
 import com.fine.vegetables.model.CartItem;
+import com.fine.vegetables.utils.KeyBoardUtils;
 import com.fine.vegetables.utils.Launcher;
 import com.fine.vegetables.utils.ToastUtil;
 import com.fine.vegetables.view.SmartDialog;
@@ -72,6 +74,11 @@ public class CartActivity extends BaseActivity implements SwipeRefreshLayout.OnR
                 emptyLayout.setVisibility(View.GONE);
                 recyclerView.setVisibility(View.VISIBLE);
                 totalLayout.setVisibility(View.VISIBLE);
+                if (Cart.get().getCartItems().size() == Cart.get().getSelectedItems().size()) {
+                    selectAll.setSelected(true);
+                } else {
+                    selectAll.setSelected(false);
+                }
             }
         }
     };
@@ -146,6 +153,20 @@ public class CartActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         mCartListAdapter = new CartListAdapter(Cart.get().getCartItems(), getActivity());
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 1));
         recyclerView.setAdapter(mCartListAdapter);
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (KeyBoardUtils.isSHowKeyboard(recyclerView)) {
+                    recyclerView.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            KeyBoardUtils.closeKeyboard(recyclerView);
+                        }
+                    }, 300);
+                }
+            }
+        });
         mCartListAdapter.setOnSelectCartListener(new OnSelectCartListener() {
             @Override
             public void select(CartItem cartItem) {
@@ -204,6 +225,11 @@ public class CartActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         updateDeleteBtn(!cartItems.isEmpty());
         totalAmount.setText(getString(R.string.total_, String.valueOf(cartItems.size())));
         mTotalPrice.setText(BigDecimal.valueOf(totalPrice).setScale(2, BigDecimal.ROUND_HALF_UP).toString());
+        if (cartItems.size() == Cart.get().getCartItems().size()) {
+            selectAll.setSelected(true);
+        } else {
+            selectAll.setSelected(false);
+        }
 
     }
 

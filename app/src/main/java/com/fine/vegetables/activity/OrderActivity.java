@@ -48,17 +48,17 @@ public class OrderActivity extends BaseActivity implements OnCountChangeListener
 
 
     private void initView() {
-        viewPager.setOffscreenPageLimit(1);
+        viewPager.setOffscreenPageLimit(2);
         viewPager.setCurrentItem(0, false);
         supplierPagesAdapter = new SupplierPagesAdapter(getSupportFragmentManager(), getActivity());
         viewPager.setAdapter(supplierPagesAdapter);
-        viewPager.setScrollable(true);
         viewPager.setCurrentItem(currentItem);
 
         tabLayout.setDistributeEvenly(true);
         tabLayout.setSelectedIndicatorColors(ContextCompat.getColor(getActivity(), R.color.green));
         tabLayout.setDividerColors(ContextCompat.getColor(getActivity(), android.R.color.transparent));
         tabLayout.setSelectedIndicatorPadding(Display.dp2Px(40, getResources()));
+        tabLayout.setSelectedIndicatorHeight(3);
         tabLayout.setPadding(Display.dp2Px(13, getResources()));
         tabLayout.setViewPager(viewPager);
     }

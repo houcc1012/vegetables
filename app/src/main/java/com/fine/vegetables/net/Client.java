@@ -2,6 +2,7 @@ package com.fine.vegetables.net;
 
 import com.android.volley.Request;
 import com.fine.httplib.ApiParams;
+import com.fine.vegetables.Preference;
 import com.fine.vegetables.model.SubmitConfirmOrder;
 import com.fine.vegetables.model.SubmitOrder;
 import com.google.gson.Gson;
@@ -17,11 +18,11 @@ public class Client {
     /**
      * /api/user/login.do
      */
-    public static API login(String account, String password, String deviceId) {
+    public static API login(String account, String password) {
         return new API(POST, "/api/user/login.do", new ApiParams()
                 .put("account", account)
                 .put("password", password)
-                .put("deviceId", deviceId)
+                .put("deviceId", Preference.get().getPushClientId())
         );
     }
 

@@ -10,7 +10,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 
 import com.android.volley.VolleyError;
 import com.fine.vegetables.R;
@@ -23,31 +22,29 @@ import com.fine.vegetables.net.Callback2D;
 import com.fine.vegetables.net.Client;
 import com.fine.vegetables.net.Page;
 import com.fine.vegetables.net.Resp;
+import com.fine.vegetables.utils.KeyBoardUtils;
 import com.fine.vegetables.utils.Launcher;
-import com.fine.vegetables.view.CustomSwipeRefreshLayout;
+import com.fine.vegetables.view.RefreshRecyclerView;
 import com.fine.vegetables.view.TitleBar;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-public class HomeFragment extends BaseFragment implements
-        SwipeRefreshLayout.OnRefreshListener, CustomSwipeRefreshLayout.OnLoadMoreListener {
+public class HomeFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
 
     Unbinder unbinder;
 
     @BindView(R.id.titleBar)
     TitleBar mTitleBar;
     @BindView(R.id.swipeRefreshLayout)
-    CustomSwipeRefreshLayout mSwipeRefreshLayout;
+    SwipeRefreshLayout mSwipeRefreshLayout;
     @BindView(R.id.recyclerView)
-    RecyclerView mRecyclerView;
+    RefreshRecyclerView mRecyclerView;
 
     private CommodityAdapter mCommodityListAdapter;
     private List<Commodity> mCommodityList = new ArrayList<>();
@@ -69,7 +66,6 @@ public class HomeFragment extends BaseFragment implements
 
     private void initView() {
         mSwipeRefreshLayout.setOnRefreshListener(this);
-        mSwipeRefreshLayout.setOnLoadMoreListener(this);
         mCommodityListAdapter = new CommodityAdapter(mCommodityList, getActivity());
         mCommodityListAdapter.setOnAddCartListener(new OnAddCartListener() {
             @Override
@@ -81,6 +77,28 @@ public class HomeFragment extends BaseFragment implements
         });
         mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         mRecyclerView.setAdapter(mCommodityListAdapter);
+        mRecyclerView.setLoadMoreEnable(true);
+        mRecyclerView.setOnLoadMoreListener(new RefreshRecyclerView.OnLoadMoreListener() {
+            @Override
+            public void loadMoreListener() {
+                requestCommodities();
+            }
+        });
+//        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+//            @Override
+//            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+//                super.onScrolled(recyclerView, dx, dy);
+//                if (KeyBoardUtils.isSHowKeyboard(recyclerView)) {
+//                    recyclerView.postDelayed(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            KeyBoardUtils.closeKeyboard(recyclerView);
+//                        }
+//                    }, 300);
+//                }
+//
+//            }
+//        });
 
     }
 
@@ -116,9 +134,10 @@ public class HomeFragment extends BaseFragment implements
         }
         mCommodityListAdapter.add(data);
         if (data.size() >= Client.PAGE_SIZE) {
-            mSwipeRefreshLayout.setLoadMoreEnable(true);
+            mRecyclerView.setLoadMoreEnable(true);
             mPage++;
         }
+        mRecyclerView.notifyData();
         mCommodityListAdapter.notifyDataSetChanged();
 
     }
@@ -126,9 +145,6 @@ public class HomeFragment extends BaseFragment implements
     private void stopRefreshAnimation() {
         if (mSwipeRefreshLayout.isRefreshing()) {
             mSwipeRefreshLayout.setRefreshing(false);
-        }
-        if (mSwipeRefreshLayout.isLoading()) {
-            mSwipeRefreshLayout.setLoading(false);
         }
     }
 
@@ -144,19 +160,12 @@ public class HomeFragment extends BaseFragment implements
         unbinder.unbind();
     }
 
-    private void reset() {
-        mPage = 0;
-        mSwipeRefreshLayout.setLoadMoreEnable(true);
-    }
 
     @Override
     public void onRefresh() {
-        reset();
-        requestCommodities();
-    }
-
-    @Override
-    public void onLoadMore() {
+        mPage = 0;
+        mRecyclerView.setLoadMoreEnable(true);
         requestCommodities();
     }
 }
+

@@ -34,7 +34,7 @@
     <string name="expect_money">预计金额</string>
     <string name="expect_money_">预计金额 ￥%1$s</string>
     <string name="confirm_order_desc">预计金额为预订时估算的金额，请以实际到货的金额为准</string>
-    <string name="expect">预计</string>
+    <string name="expect">预定</string>
 
     <string name="commodity_list">商品清单</string>
     <string name="commodity">商品</string>
@@ -53,6 +53,7 @@
     <string name="see_address">查看地址</string>
 
     <string name="confirm_send">确认送达</string>
+    <string name="confirm_info">确认信息</string>
     <string name="actual_price">实收金额:</string>
     <string name="please_confirm_actual_fund">请确认您的实收金额</string>
     <string name="should_fund">应收金额:</string>

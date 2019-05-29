@@ -117,6 +117,16 @@ public class Cart implements Parcelable {
         return cartItems == null ? new ArrayList<>() : cartItems;
     }
 
+    public List<CartItem> getSelectedItems() {
+        List<CartItem> selectedList = new ArrayList<>();
+        for (CartItem item : cartItems) {
+            if (item.isSelected()) {
+                selectedList.add(item);
+            }
+        }
+        return selectedList;
+    }
+
     public int getCount() {
         int count = 0;
         if (cartItems != null) {

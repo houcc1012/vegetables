@@ -24,6 +24,7 @@ import com.fine.vegetables.net.Callback2D;
 import com.fine.vegetables.net.Client;
 import com.fine.vegetables.net.Page;
 import com.fine.vegetables.net.Resp;
+import com.fine.vegetables.utils.KeyBoardUtils;
 import com.fine.vegetables.utils.Launcher;
 import com.fine.vegetables.view.CustomSwipeRefreshLayout;
 
@@ -174,6 +175,14 @@ public class CategoryFragment extends BaseFragment implements AbsListView.OnScro
         int topRowVerticalPosition =
                 (lvCommodity == null || lvCommodity.getChildCount() == 0) ? 0 : lvCommodity.getChildAt(0).getTop();
         mSwipeRefreshLayout.setEnabled(firstVisibleItem == 0 && topRowVerticalPosition >= 0);
+//        if (KeyBoardUtils.isSHowKeyboard(lvCommodity)) {
+//            lvCommodity.postDelayed(new Runnable() {
+//                @Override
+//                public void run() {
+//                    KeyBoardUtils.closeKeyboard(lvCommodity);
+//                }
+//            }, 300);
+//        }
     }
 
     @Override

@@ -18,12 +18,12 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class OrderDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class OrderDetailPushAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Context mContext;
     private List<Order.DataBean> mDataList;
 
-    public OrderDetailAdapter(List<Order.DataBean> orders, Context context) {
+    public OrderDetailPushAdapter(List<Order.DataBean> orders, Context context) {
         this.mContext = context;
         this.mDataList = orders;
 
@@ -41,7 +41,7 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.item_order_detail, viewGroup, false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.item_order_detail_push, viewGroup, false);
         return new ViewHolder(view);
     }
 
@@ -67,12 +67,10 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         AppCompatImageView commodityImg;
         @BindView(R.id.commodityName)
         AppCompatTextView commodityName;
-        @BindView(R.id.sumAmount)
-        AppCompatTextView sumAmount;
         @BindView(R.id.price)
         AppCompatTextView price;
-        @BindView(R.id.actualAmout)
-        AppCompatTextView actualAmount;
+        @BindView(R.id.expectAmout)
+        AppCompatTextView expectAmout;
 
         public ViewHolder(View view) {
             super(view);
@@ -85,8 +83,7 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                     .into(commodityImg);
             commodityName.setText(item.getVegetableName());
             price.setText(context.getString(R.string.yuan_symbol_, String.valueOf(item.getPrice())));
-            sumAmount.setText(item.getExpectWeight() + item.getUnitName());
-            actualAmount.setText(context.getString(R.string.actual_amount_, item.getActualWeight(), item.getUnitName()));
+            expectAmout.setText(context.getString(R.string.expect) + " " + item.getExpectWeight() + item.getUnitName());
         }
     }
 }

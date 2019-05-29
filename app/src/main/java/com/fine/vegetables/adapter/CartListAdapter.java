@@ -130,7 +130,12 @@ public class CartListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 public void onAmountChange(View view, String amount) {
                     Integer nowCount = Integer.valueOf(amount);
                     if (nowCount != cart.getCount()) {
-                        cart.setCount(nowCount);
+                        if (nowCount >= 1000) {
+                            amountView.setAmount(String.valueOf(999));
+                            cart.setCount(999);
+                        } else {
+                            cart.setCount(nowCount);
+                        }
                         if (onSelectAmountChangeListener != null) {
                             onSelectAmountChangeListener.change(cart);
                         }
